@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/commen_management/commen_management.iml" filepath="$PROJECT_DIR$/commen_management/commen_management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common_parment.iml" filepath="$PROJECT_DIR$/common_parment.iml" />
+    </modules>
+  </component>
+</project>
