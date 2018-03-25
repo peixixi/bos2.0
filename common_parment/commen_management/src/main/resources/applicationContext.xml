@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:task="http://www.springframework.org/schema/task"
-	xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
@@ -13,10 +14,61 @@
 		http://www.springframework.org/schema/data/jpa 
 		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-	<!-- 扫描 @Server @Controller @Repository -->
-	<context:component-scan base-package="cn.itcast"/>
+    <!-- 扫描 @Server @Controller @Repository -->
+    <context:component-scan base-package="cn.itcast"/>
 
-	<!-- 加载properties文件 -->
-	<context:property-placeholder location="classpath:config.properties" />
-	
+    <!-- 加载properties文件 -->
+    <context:property-placeholder location="classpath:config.properties"/>
+
+    <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" id="sessionFactory">
+
+        <!-- 加载连接池 -->
+
+
+        <property ref="dataSource" name="dataSource"/>
+
+
+        <property name="hibernateProperties">
+
+
+            <props>
+
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+
+        </property>
+
+        <!-- 加载hibernate的Xxx.hbm.xml配置文件 -->
+
+
+        <property name="mappingLocations">
+
+
+            <list>
+
+                <value>classpath:cn/itheima/domain/*.hbm.xml</value>
+
+            </list>
+
+        </property>
+
+    </bean>
+
+    <!-- 配置连接池 -->
+
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+
+        <property name="url" value="${jdbc.url}"/>
+
+        <property name="username" value="${jdbc.username}"/>
+
+        <property name="password" value="${jdbc.password}"/>
+
+    </bean>
+
 </beans>
