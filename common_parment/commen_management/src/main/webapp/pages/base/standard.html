@@ -30,11 +30,21 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url : "../../data/standard.json",
+					url : "../../standard_findAll",
 					idField : 'id',
 					columns : columns
 				});
-			});	
+
+                $("#save").click(function(){
+                    if( $("#standardForm").form('validate')){
+                        $("#standardForm").submit();
+                    }else{
+                        $.messager.alert("警告","表单中还有一些非法内容","warning")
+                    }
+
+                })
+			});
+
 			
 			//工具栏
 			var toolbar = [ {
@@ -42,16 +52,26 @@
 				text : '增加',
 				iconCls : 'icon-add',
 				handler : function(){
-					alert('增加');
+                    /*$("#button-add").click(function(){*/
+                        $("#standardWindow").window('open');
+
 				}
 			}, {
 				id : 'button-edit',
 				text : '修改',
 				iconCls : 'icon-edit',
 				handler : function(){
-					alert('修改');
+					var rows=$("#grid").datagrid('getSelections');
+					if(rows.length!=1){
+					    $.messager.alert("提示信息","修改数据时，只能修改一行","warning");
+					}else{
+					    var row=rows[0];
+					    $("#standardForm").form('load',row);
+					    $("#standardWindow").window('open');
+					}
 				}
 			}];
+
 			
 			// 定义列
 			var columns = [ [ {
@@ -98,6 +118,8 @@
 				width : 120,
 				align : 'center'
 			} ] ];
+
+
 		</script>
 	</head>
 
@@ -115,7 +137,7 @@
 
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
 				
-				<form>
+				<form id="standardForm" action="../../standard_save.action" method="post">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">收派标准信息
